@@ -992,6 +992,7 @@
 
     /* ---------------- PWA ---------------- */
     function registerSW() {
+        return;
         if (!('serviceWorker' in navigator)) return;
         if (location.protocol === 'file:') return;
         window.addEventListener('load', () => {
