@@ -6,137 +6,131 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Tracker tugas kuliah">
     <meta name="theme-color" content="#0b1220">
-    <title>Tugas Kuliah · Tracker Belajar</title>
+    <title>Tugas Kuliah</title>
     <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%93%9A%3C/text%3E%3C/svg%3E">
-    <link rel="manifest" href="manifest.json">
     <link rel="stylesheet" href="css/style.css">
 </head>
 
-<body data-page="tugas">
-
-    <header class="site-header">
-        <div class="container header-inner">
-            <a href="index.html" class="brand">
-                <span class="brand-icon">📝</span>
-                <span class="brand-text">Tracker Belajar</span>
-            </a>
-            <nav class="nav">
-                <a href="index.html" class="nav-link">UTBK</a>
-                <a href="tugas.html" class="nav-link active">Tugas Kuliah</a>
-            </nav>
-            <div class="header-actions">
-                <button class="icon-round" id="btn-theme" title="Ganti tema" aria-label="Ganti tema">☀️</button>
-            </div>
-        </div>
+<body>
+    <header>
+        <h1>📝 Tugas Kuliah</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="index.html#utbk">Tracker UTBK</a></li>
+            </ul>
+        </nav>
     </header>
-
-    <main class="container">
-
-        <section class="hero">
-            <h1>Tugas Kuliah</h1>
-            <p class="subtitle">Semua deadline kampus dalam satu tempat</p>
-        </section>
-
-        <section class="dashboard">
-            <div class="stats" id="stats" aria-label="Statistik"></div>
-            <div class="chart-card">
-                <div class="chart-title">Distribusi Status</div>
-                <div class="chart-wrap">
-                    <svg id="chart" viewBox="0 0 120 120" aria-hidden="true"></svg>
-                    <div class="chart-legend" id="chart-legend"></div>
-                </div>
-            </div>
-        </section>
-
-        <section class="toolbar">
-            <div class="search-box">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                    <circle cx="11" cy="11" r="8"></circle>
-                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-                </svg>
-                <input type="search" id="search" placeholder="Cari mata kuliah, dosen...  ( / )" aria-label="Cari">
-            </div>
-            <div class="filters">
-                <select id="filter-status" aria-label="Filter status">
-                    <option value="all">Semua status</option>
-                    <option value="selesai">✅ Kelar</option>
-                    <option value="progress">🔥 Lagi dikerjain</option>
-                    <option value="pending">💀 Ntar aja</option>
-                </select>
-                <select id="filter-priority" aria-label="Filter prioritas">
-                    <option value="all">Semua prioritas</option>
-                    <option value="high">🔴 Tinggi</option>
-                    <option value="med">🟡 Sedang</option>
-                    <option value="low">🔵 Rendah</option>
-                </select>
-                <select id="filter-tag" aria-label="Filter tag">
-                    <option value="all">Semua tag</option>
-                </select>
-                <button class="btn btn-icon" id="btn-export" title="Export JSON" aria-label="Export">⬇</button>
-                <button class="btn btn-icon" id="btn-import" title="Import JSON" aria-label="Import">⬆</button>
-                <button class="btn btn-icon" id="btn-reset" title="Reset ke data awal" aria-label="Reset">↻</button>
-                <button class="btn btn-primary" id="btn-add" title="Tambah (N)">＋ Tambah</button>
-                <input type="file" id="import-file" accept="application/json,.json" hidden>
-            </div>
-        </section>
-
-        <div class="bulk-bar" id="bulk-bar" hidden>
-            <span class="bulk-count" id="bulk-count">0 item dipilih</span>
-            <span class="spacer"></span>
-            <button class="btn btn-ghost" id="btn-bulk-clear">Batal</button>
-            <button class="btn btn-danger" id="btn-bulk-delete">Hapus terpilih</button>
-        </div>
-
-        <section class="table-wrap">
-            <table id="tugas-table">
-                <thead></thead>
-                <tbody></tbody>
+    <hr>
+    <main>
+        <p>Selesai: 1/8 tugas</p>
+        <div class="table-wrap">
+            <table>
+                <caption>Tracker Tugas Kuliah</caption>
+                <thead>
+                    <tr>
+                        <th scope="col">No</th>
+                        <th scope="col">Mata Kuliah</th>
+                        <th scope="col">Dosen</th>
+                        <th scope="col">Modul Tugas</th>
+                        <th scope="col">Deadline</th>
+                        <th scope="col">Status</th>
+                        <th scope="col">Nilai</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <th scope="row">Nama Mata Kuliah</th>
+                        <td>Nama Dosen</td>
+                        <td>Tugas 1 - Modul 1</td>
+                        <td><time datetime="2026-10-10">10/10/2026</time></td>
+                        <td>✅ Kelar</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <th scope="row">Nama Mata Kuliah</th>
+                        <td>Nama Dosen</td>
+                        <td>Tugas 2 - Modul 2</td>
+                        <td><time datetime="2026-10-17">17/10/2026</time></td>
+                        <td>🔥 Lagi dikerjain</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <th scope="row">Nama Mata Kuliah</th>
+                        <td>Nama Dosen</td>
+                        <td>Tugas 3 - Modul 3</td>
+                        <td><time datetime="2026-10-24">24/10/2026</time></td>
+                        <td>💀 Ntar aja</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>4</td>
+                        <th scope="row">Nama Mata Kuliah</th>
+                        <td>Nama Dosen</td>
+                        <td>Tugas 4 - Modul 4</td>
+                        <td>-</td>
+                        <td>💀 Ntar aja</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>5</td>
+                        <th scope="row">Nama Mata Kuliah</th>
+                        <td>Nama Dosen</td>
+                        <td>Tugas 5 - Modul 5</td>
+                        <td>-</td>
+                        <td>💀 Ntar aja</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>6</td>
+                        <th scope="row">Nama Mata Kuliah</th>
+                        <td>Nama Dosen</td>
+                        <td>Tugas 6 - Modul 6</td>
+                        <td>-</td>
+                        <td>💀 Ntar aja</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>7</td>
+                        <th scope="row">Nama Mata Kuliah</th>
+                        <td>Nama Dosen</td>
+                        <td>Tugas 7 - Modul 7</td>
+                        <td>-</td>
+                        <td>💀 Ntar aja</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>8</td>
+                        <th scope="row">Nama Mata Kuliah</th>
+                        <td>Nama Dosen</td>
+                        <td>Tugas 8 - Modul 8</td>
+                        <td>-</td>
+                        <td>💀 Ntar aja</td>
+                        <td>-</td>
+                    </tr>
+                </tbody>
             </table>
-            <div id="empty-state" class="empty-state" hidden>
-                <span class="emoji">🔍</span>
-                <p>Tidak ada data yang cocok. Coba ubah filter atau kata kunci.</p>
-            </div>
-        </section>
-
-        <section class="legend">
-            <span class="legend-item">✅ <strong>Kelar</strong> — udah dikumpulin</span>
-            <span class="legend-item">🔥 <strong>Lagi dikerjain</strong> — jangan diganggu</span>
-            <span class="legend-item">💀 <strong>Ntar aja</strong> — belum disentuh</span>
-            <span class="legend-item">⚠️ <strong>Deadline dekat</strong> — ≤ 3 hari</span>
-        </section>
-
+        </div>
+        <h2>Legenda Status</h2>
+        <dl>
+            <dt>✅ Kelar</dt>
+            <dd>Udah selesai dan dikumpulin</dd>
+            <dt>🔥 Lagi dikerjain</dt>
+            <dd>Lagi jalan, jangan diganggu</dd>
+            <dt>💀 Ntar aja</dt>
+            <dd>Belum disentuh sama sekali</dd>
+        </dl>
+        <p>
+            <a href="#">Back To Top</a>
+        </p>
     </main>
-
-    <footer class="site-footer">
-        <div class="container">
-            <p>Dibikin pake kopi dan keputusasaan ☕ · Terakhir diupdate:
-                <time datetime="2026-10-08">08/10/2026</time>
-            </p>
-        </div>
+    <hr>
+    <footer>
+        <p>Dibikin pake kopi dan keputusasaan ☕ &middot; Terakhir diupdate: <time datetime="2026-10-08">08/10/2026</time></p>
     </footer>
-
-    <!-- Timer bar disembunyikan di halaman ini (ga ada durasi), tapi tetap ada buat error safety -->
-    <div class="running-timer" id="running-timer" hidden>
-        <span class="running-dot"></span>
-        <span class="running-label" id="running-label">Fokus</span>
-        <span class="running-time" id="running-time">00:00:00</span>
-        <button class="btn btn-primary" id="btn-stop-timer">Stop &amp; Simpan</button>
-        <button class="btn btn-ghost" id="btn-cancel-timer">Batal</button>
-    </div>
-
-    <div class="modal-backdrop" id="modal" hidden>
-        <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
-            <header class="modal-header">
-                <h2 id="modal-title">Tambah Data</h2>
-                <button class="btn-close" id="modal-close" aria-label="Tutup">×</button>
-            </header>
-            <form id="form" class="modal-body" novalidate></form>
-        </div>
-    </div>
-
-    <div class="toast-container" id="toast-container" aria-live="polite"></div>
-
-    <script src="js/app.js"></script>
 </body>
 
 </html>
