@@ -6,180 +6,129 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Tracker belajar UTBK dan tugas kuliah">
     <meta name="theme-color" content="#0b1220">
-    <title>Tracker Belajar</title>
+    <title>Tracker UTBK · Tracker Belajar</title>
     <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%93%9A%3C/text%3E%3C/svg%3E">
+    <link rel="manifest" href="manifest.json">
     <link rel="stylesheet" href="css/style.css">
 </head>
 
-<body>
-    <header>
-        <h1>📚 Tracker Belajar</h1>
-        <nav>
-            <ul>
-                <li><a href="#about">Tentang</a></li>
-                <li><a href="#utbk">Tracker UTBK</a></li>
-                <li><a href="tugas.html">Tugas Kuliah</a></li>
-            </ul>
-        </nav>
-    </header>
-    <hr>
-    <main>
-        <article id="about">
-            <h2>Tentang</h2>
-            <p>
-                Halaman ini buat nyatet progress belajar <abbr title="Ujian Tulis Berbasis Komputer">UTBK</abbr>
-                dan tugas kuliah, biar belajarnya <strong>terukur</strong> dan nggak asal. Klik <em>Tonton</em>
-                buat buka video, dan link bakal kebuka di tab baru.
-            </p>
-            <aside>
-                <h3>Tips</h3>
-                <details>
-                    <summary>Gimana cara nambah baris atau ngisi link?</summary>
-                    <p>
-                        Buka <code>index.html</code>, copy satu blok <code>&lt;tr&gt;...&lt;/tr&gt;</code>, lalu ganti
-                        isinya. Buat ngisi link, ganti <code>-</code> jadi:
-                    </p>
-                    <p>
-                        <code>&lt;a href="LINK-LO" target="_blank" rel="noopener noreferrer"&gt;Tonton&lt;/a&gt;</code>
-                    </p>
-                </details>
-            </aside>
-        </article>
-        <hr>
-        <article id="utbk">
-            <h2>Tracker UTBK</h2>
-            <div class="table-wrap">
-                <table>
-                    <caption>Mantappu Academy | Pengetahuan Kuantitatif dan Penalaran Matematika</caption>
-                    <thead>
-                        <tr>
-                            <th scope="col">No</th>
-                            <th scope="col">Materi</th>
-                            <th scope="col">Tanggal</th>
-                            <th scope="col">Modul</th>
-                            <th scope="col">Tutor</th>
-                            <th scope="col">Video</th>
-                            <th scope="col">Latihan</th>
-                            <th scope="col">Durasi</th>
-                            <th scope="col">Skor</th>
-                            <th scope="col">Status</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>1</td>
-                            <th scope="row">NgejarSNBT-P01</th>
-                            <td><time datetime="2026-10-07">07/10/2026</time></td>
-                            <td>-</td>
-                            <td>Jerome &amp; Billy</td>
-                            <td><a href="https://youtu.be/MTq084lkLxo?si=QuShExB4CA-Hv3eI" target="_blank" rel="noopener noreferrer">Tonton</a></td>
-                            <td>-</td>
-                            <td>2 jam</td>
-                            <td>-</td>
-                            <td>✅ Kelar</td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <th scope="row">NgejarSNBT-P02</th>
-                            <td>-</td>
-                            <td>-</td>
-                            <td>-</td>
-                            <td>-</td>
-                            <td>-</td>
-                            <td>3 jam</td>
-                            <td>-</td>
-                            <td>🔥 Lagi dikerjain</td>
-                        </tr>
-                        <tr>
-                            <td>3</td>
-                            <th scope="row">NgejarSNBT-P03</th>
-                            <td>-</td><td>-</td><td>-</td><td>-</td><td>-</td>
-                            <td>0 jam</td><td>-</td>
-                            <td>💀 Ntar aja</td>
-                        </tr>
-                        <tr>
-                            <td>4</td>
-                            <th scope="row">NgejarSNBT-P04</th>
-                            <td>-</td><td>-</td><td>-</td><td>-</td><td>-</td>
-                            <td>0 jam</td><td>-</td>
-                            <td>💀 Ntar aja</td>
-                        </tr>
-                        <tr>
-                            <td>5</td>
-                            <th scope="row">NgejarSNBT-P05</th>
-                            <td>-</td><td>-</td><td>-</td><td>-</td><td>-</td>
-                            <td>0 jam</td><td>-</td>
-                            <td>💀 Ntar aja</td>
-                        </tr>
-                        <tr>
-                            <td>6</td>
-                            <th scope="row">NgejarSNBT-P06</th>
-                            <td>-</td><td>-</td><td>-</td><td>-</td><td>-</td>
-                            <td>0 jam</td><td>-</td>
-                            <td>💀 Ntar aja</td>
-                        </tr>
-                        <tr>
-                            <td>7</td>
-                            <th scope="row">NgejarSNBT-P07</th>
-                            <td>-</td><td>-</td><td>-</td><td>-</td><td>-</td>
-                            <td>0 jam</td><td>-</td>
-                            <td>💀 Ntar aja</td>
-                        </tr>
-                        <tr>
-                            <td>8</td>
-                            <th scope="row">NgejarSNBT-P08</th>
-                            <td>-</td><td>-</td><td>-</td><td>-</td><td>-</td>
-                            <td>0 jam</td><td>-</td>
-                            <td>💀 Ntar aja</td>
-                        </tr>
-                        <tr>
-                            <td>9</td>
-                            <th scope="row">NgejarSNBT-P09</th>
-                            <td>-</td><td>-</td><td>-</td><td>-</td><td>-</td>
-                            <td>0 jam</td><td>-</td>
-                            <td>💀 Ntar aja</td>
-                        </tr>
-                        <tr>
-                            <td>10</td>
-                            <th scope="row">NgejarSNBT-P10</th>
-                            <td>-</td><td>-</td><td>-</td><td>-</td><td>-</td>
-                            <td>0 jam</td><td>-</td>
-                            <td>💀 Ntar aja</td>
-                        </tr>
-                        <tr>
-                            <td>11</td>
-                            <th scope="row">NgejarSNBT-P11</th>
-                            <td>-</td><td>-</td><td>-</td><td>-</td><td>-</td>
-                            <td>0 jam</td><td>-</td>
-                            <td>💀 Ntar aja</td>
-                        </tr>
-                        <tr>
-                            <td>12</td>
-                            <th scope="row">NgejarSNBT-P12</th>
-                            <td>-</td><td>-</td><td>-</td><td>-</td><td>-</td>
-                            <td>0 jam</td><td>-</td>
-                            <td>💀 Ntar aja</td>
-                        </tr>
-                    </tbody>
-                    <tfoot>
-                        <tr>
-                            <td colspan="10">
-                                Total durasi belajar: 5 jam &middot; Selesai: 1/12 materi
-                            </td>
-                        </tr>
-                    </tfoot>
-                </table>
+<body data-page="utbk">
+
+    <header class="site-header">
+        <div class="container header-inner">
+            <a href="index.html" class="brand">
+                <span class="brand-icon">📚</span>
+                <span class="brand-text">Tracker Belajar</span>
+            </a>
+            <nav class="nav">
+                <a href="index.html" class="nav-link active">UTBK</a>
+                <a href="tugas.html" class="nav-link">Tugas Kuliah</a>
+            </nav>
+            <div class="header-actions">
+                <button class="icon-round" id="btn-theme" title="Ganti tema" aria-label="Ganti tema">☀️</button>
             </div>
-            <br>
-            <p>
-                <a href="#">Back To Top</a>
-            </p>
-        </article>
+        </div>
+    </header>
+
+    <main class="container">
+
+        <section class="hero">
+            <h1>Tracker UTBK</h1>
+            <p class="subtitle">Mantappu Academy · Pengetahuan Kuantitatif &amp; Penalaran Matematika</p>
+        </section>
+
+        <section class="dashboard">
+            <div class="stats" id="stats" aria-label="Statistik"></div>
+            <div class="chart-card">
+                <div class="chart-title">Distribusi Status</div>
+                <div class="chart-wrap">
+                    <svg id="chart" viewBox="0 0 120 120" aria-hidden="true"></svg>
+                    <div class="chart-legend" id="chart-legend"></div>
+                </div>
+            </div>
+        </section>
+
+        <section class="toolbar">
+            <div class="search-box">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                </svg>
+                <input type="search" id="search" placeholder="Cari materi, tutor, tag...  ( / )" aria-label="Cari">
+            </div>
+            <div class="filters">
+                <select id="filter-status" aria-label="Filter status">
+                    <option value="all">Semua status</option>
+                    <option value="selesai">✅ Kelar</option>
+                    <option value="progress">🔥 Lagi dikerjain</option>
+                    <option value="pending">💀 Ntar aja</option>
+                </select>
+                <select id="filter-priority" aria-label="Filter prioritas">
+                    <option value="all">Semua prioritas</option>
+                    <option value="high">🔴 Tinggi</option>
+                    <option value="med">🟡 Sedang</option>
+                    <option value="low">🔵 Rendah</option>
+                </select>
+                <select id="filter-tag" aria-label="Filter tag">
+                    <option value="all">Semua tag</option>
+                </select>
+                <button class="btn btn-icon" id="btn-export" title="Export JSON" aria-label="Export">⬇</button>
+                <button class="btn btn-icon" id="btn-import" title="Import JSON" aria-label="Import">⬆</button>
+                <button class="btn btn-icon" id="btn-reset" title="Reset ke data awal" aria-label="Reset">↻</button>
+                <button class="btn btn-primary" id="btn-add" title="Tambah (N)">＋ Tambah</button>
+                <input type="file" id="import-file" accept="application/json,.json" hidden>
+            </div>
+        </section>
+
+        <div class="bulk-bar" id="bulk-bar" hidden>
+            <span class="bulk-count" id="bulk-count">0 item dipilih</span>
+            <span class="spacer"></span>
+            <button class="btn btn-ghost" id="btn-bulk-clear">Batal</button>
+            <button class="btn btn-danger" id="btn-bulk-delete">Hapus terpilih</button>
+        </div>
+
+        <section class="table-wrap">
+            <table id="utbk-table">
+                <thead></thead>
+                <tbody></tbody>
+            </table>
+            <div id="empty-state" class="empty-state" hidden>
+                <span class="emoji">🔍</span>
+                <p>Tidak ada data yang cocok. Coba ubah filter atau kata kunci.</p>
+            </div>
+        </section>
+
     </main>
-    <hr>
-    <footer>
-        <p>Dibikin pake kopi dan keputusasaan ☕ &middot; Terakhir diupdate: <time datetime="2026-10-08">08/10/2026</time></p>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p>Dibikin pake kopi dan keputusasaan ☕ · Terakhir diupdate:
+                <time datetime="2026-10-08">08/10/2026</time>
+            </p>
+        </div>
     </footer>
+
+    <div class="running-timer" id="running-timer" hidden>
+        <span class="running-dot"></span>
+        <span class="running-label" id="running-label">Fokus</span>
+        <span class="running-time" id="running-time">00:00:00</span>
+        <button class="btn btn-primary" id="btn-stop-timer">Stop &amp; Simpan</button>
+        <button class="btn btn-ghost" id="btn-cancel-timer">Batal</button>
+    </div>
+
+    <div class="modal-backdrop" id="modal" hidden>
+        <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+            <header class="modal-header">
+                <h2 id="modal-title">Tambah Data</h2>
+                <button class="btn-close" id="modal-close" aria-label="Tutup">×</button>
+            </header>
+            <form id="form" class="modal-body" novalidate></form>
+        </div>
+    </div>
+
+    <div class="toast-container" id="toast-container" aria-live="polite"></div>
+
+    <script src="js/app.js"></script>
 </body>
 
 </html>

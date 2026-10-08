@@ -1,12 +1,12 @@
 /* ============================================================
    Tracker Belajar v5 — CRUD · Sort · Filter · Chart · Timer
-   + Priority · Notes · Duplicate · Bulk · Shortcuts · PWA
+   + Priority · Notes · Duplicate · Bulk · Shortcuts
+   Service Worker DISABLED
    ============================================================ */
 
 (() => {
     'use strict';
 
-    /* ---------------- Konstanta ---------------- */
     const STATUS = {
         selesai:  { label: '✅ Kelar',          cls: 'success', color: '#34d399' },
         progress: { label: '🔥 Lagi dikerjain', cls: 'warn',    color: '#fbbf24' },
@@ -23,7 +23,6 @@
     const TIMER_KEY = 'tracker:timer';
     const URGENT_DAYS = 3;
 
-    /* ---------------- Helper ---------------- */
     const $  = (s, r = document) => r.querySelector(s);
     const $$ = (s, r = document) => [...r.querySelectorAll(s)];
     const uid = () => Math.random().toString(36).slice(2, 10);
@@ -54,7 +53,6 @@
         return [h, m, s].map(n => String(n).padStart(2, '0')).join(':');
     };
 
-    /* ---------------- Config ---------------- */
     const PAGES = {
         utbk: {
             key: 'tracker:utbk:v5',
@@ -113,7 +111,6 @@
                 })),
             ],
         },
-
         tugas: {
             key: 'tracker:tugas:v5',
             tableSel: '#tugas-table',
@@ -164,12 +161,10 @@
         },
     };
 
-    /* ---------------- Page detect ---------------- */
     const pageKey = document.body.dataset.page;
     const CFG = PAGES[pageKey];
     if (!CFG) return;
 
-    /* ---------------- State ---------------- */
     let state = loadState();
     let sortKey = null;
     let sortDir = 'asc';
@@ -179,7 +174,7 @@
     let filterPriority = 'all';
     let editingId = null;
     const selected = new Set();
-    let runningTimer = loadTimer();   // { id, startedAt } | null
+    let runningTimer = loadTimer();
 
     /* ---------------- Theme ---------------- */
     function initTheme() {
@@ -187,7 +182,6 @@
         document.documentElement.setAttribute('data-theme', saved || 'dark');
         updateThemeIcon();
     }
-
     function toggleTheme() {
         const cur = document.documentElement.getAttribute('data-theme') || 'dark';
         const next = cur === 'light' ? 'dark' : 'light';
@@ -195,7 +189,6 @@
         localStorage.setItem(THEME_KEY, next);
         updateThemeIcon();
     }
-
     function updateThemeIcon() {
         const btn = $('#btn-theme');
         if (!btn) return;
@@ -210,30 +203,20 @@
             const raw = localStorage.getItem(CFG.key);
             if (raw) {
                 const data = JSON.parse(raw);
-                if (Array.isArray(data)) {
-                    return data.map(d => ({
-                        priority: 'med',
-                        tags: [],
-                        ...d,
-                    }));
-                }
+                if (Array.isArray(data)) return data.map(d => ({ priority: 'med', tags: [], ...d }));
             }
         } catch (_) {}
         return CFG.seed.map((d) => ({ id: uid(), ...d }));
     }
-
     function saveState() {
-        try { localStorage.setItem(CFG.key, JSON.stringify(state)); }
-        catch (_) {}
+        try { localStorage.setItem(CFG.key, JSON.stringify(state)); } catch (_) {}
     }
-
     function loadTimer() {
         try {
             const raw = localStorage.getItem(TIMER_KEY);
             return raw ? JSON.parse(raw) : null;
         } catch (_) { return null; }
     }
-
     function saveTimer() {
         try {
             if (runningTimer) localStorage.setItem(TIMER_KEY, JSON.stringify(runningTimer));
@@ -284,20 +267,15 @@
         const progress = state.filter(d => d.status === 'progress').length;
         const pending  = state.filter(d => d.status === 'pending').length;
         const pct      = total ? Math.round((selesai / total) * 100) : 0;
-
-        const durasiTotal = CFG.hasDurasi
-            ? state.reduce((s, d) => s + (Number(d.durasi) || 0), 0)
-            : null;
-
+        const durasiTotal = CFG.hasDurasi ? state.reduce((s, d) => s + (Number(d.durasi) || 0), 0) : null;
         const urgent = state.filter(d => {
             if (!d.deadline || d.status === 'selesai') return false;
             const diff = daysUntil(d.deadline);
             return diff >= 0 && diff <= URGENT_DAYS;
         }).length;
-
         const highPrio = state.filter(d => d.priority === 'high' && d.status !== 'selesai').length;
 
-        const cards = CFG.hasDurasi ? `
+        statsEl.innerHTML = CFG.hasDurasi ? `
             <div class="stat-card">
                 <div class="stat-label">Total Materi</div>
                 <div class="stat-value">${total}</div>
@@ -340,8 +318,6 @@
                 <div class="stat-sub">belum selesai 🔴</div>
             </div>
         `;
-
-        statsEl.innerHTML = cards;
     }
 
     /* ---------------- Chart ---------------- */
@@ -349,26 +325,20 @@
         const el = $('#chart');
         const legend = $('#chart-legend');
         if (!el || !legend) return;
-
         const total = state.length;
         if (!total) {
             el.innerHTML = '';
             legend.innerHTML = '<span class="chart-empty">Belum ada data</span>';
             return;
         }
-
-        const buckets = ['selesai', 'progress', 'pending']
-            .map(k => ({
-                key: k,
-                label: STATUS[k].label.replace(/^[^\s]+\s/, ''),
-                color: STATUS[k].color,
-                n: state.filter(d => d.status === k).length,
-            }))
-            .filter(b => b.n > 0);
-
+        const buckets = ['selesai', 'progress', 'pending'].map(k => ({
+            key: k,
+            label: STATUS[k].label.replace(/^[^\s]+\s/, ''),
+            color: STATUS[k].color,
+            n: state.filter(d => d.status === k).length,
+        })).filter(b => b.n > 0);
         const R = 52, C = 2 * Math.PI * R, CX = 60, CY = 60;
         let offset = 0;
-
         const arcs = buckets.map(b => {
             const dash = (b.n / total) * C;
             const arc = `<circle cx="${CX}" cy="${CY}" r="${R}" fill="none"
@@ -379,9 +349,7 @@
             offset += dash;
             return arc;
         }).join('');
-
         const pct = Math.round((state.filter(d => d.status === 'selesai').length / total) * 100);
-
         el.setAttribute('viewBox', '0 0 120 120');
         el.innerHTML = `
             <circle cx="${CX}" cy="${CY}" r="${R}" fill="none" stroke="var(--bg-3)" stroke-width="14"/>
@@ -389,7 +357,6 @@
             <text x="${CX}" y="${CY - 2}" text-anchor="middle" font-size="20" font-weight="800" fill="var(--text)">${pct}%</text>
             <text x="${CX}" y="${CY + 14}" text-anchor="middle" font-size="9" fill="var(--text-mute)" letter-spacing="0.08em">SELESAI</text>
         `;
-
         legend.innerHTML = buckets.map(b => `
             <div class="chart-legend-row">
                 <span class="chart-dot" style="background:${b.color}"></span>
@@ -408,45 +375,35 @@
             const s = STATUS[item.status] || STATUS.pending;
             return `<span class="badge ${s.cls}">${s.label}</span>`;
         }
-
         if (col.cell === 'priority') {
             const p = PRIORITY[item.priority] || PRIORITY.med;
             return `<span class="priority ${p.cls}">${p.icon} ${p.label}</span>`;
         }
-
         if (col.cell === 'tags') {
-            const arr = Array.isArray(val) ? val
-                : (val ? String(val).split(',').map(s => s.trim()).filter(Boolean) : []);
+            const arr = Array.isArray(val) ? val : (val ? String(val).split(',').map(s => s.trim()).filter(Boolean) : []);
             if (!arr.length) return '<span class="cell-empty">-</span>';
             return `<span class="tags">${arr.map(t => `<span class="tag">${escapeHtml(t)}</span>`).join('')}</span>`;
         }
-
         if (col.cell === 'date') {
             if (empty) return '<span class="cell-empty">-</span>';
             const urgent = col.key === 'deadline' && item.status !== 'selesai'
                 && daysUntil(val) >= 0 && daysUntil(val) <= URGENT_DAYS;
             return `<time class="${urgent ? 'deadline-warn' : ''}" datetime="${escapeHtml(val)}">${fmtDate(val)}</time>`;
         }
-
         if (col.cell === 'durasi') {
             const n = Number(val) || 0;
             return n ? `${n} jam` : '<span class="cell-empty">0 jam</span>';
         }
-
         if (col.cell === 'link') {
             if (empty) return '<span class="cell-empty">-</span>';
             const href = /^https?:\/\//i.test(val) ? val : `https://${val}`;
             return `<a href="${escapeHtml(href)}" target="_blank" rel="noopener noreferrer">▶ Tonton</a>`;
         }
-
         if (col.cell === 'materi') {
             const name = escapeHtml(val);
-            const note = item.notes
-                ? `<span class="note-icon" title="${escapeHtml(item.notes)}">ℹ️</span>`
-                : '';
+            const note = item.notes ? `<span class="note-icon" title="${escapeHtml(item.notes)}">ℹ️</span>` : '';
             return `<strong>${name}</strong>${note}`;
         }
-
         return empty ? '<span class="cell-empty">-</span>' : escapeHtml(val);
     }
 
@@ -456,28 +413,22 @@
         const d = daysUntil(item.deadline);
         return d >= 0 && d <= URGENT_DAYS;
     }
-
     function getFiltered() {
         const q = query.trim().toLowerCase();
-
         let list = state.filter((item) => {
             if (filterStatus !== 'all' && item.status !== filterStatus) return false;
             if (filterPriority !== 'all' && item.priority !== filterPriority) return false;
-
             if (filterTag !== 'all') {
                 const tags = Array.isArray(item.tags) ? item.tags : [];
                 if (!tags.some(t => String(t).toLowerCase() === filterTag)) return false;
             }
-
             if (!q) return true;
-
             return CFG.searchFields.some(key => {
                 const v = item[key];
                 if (Array.isArray(v)) return v.some(t => String(t).toLowerCase().includes(q));
                 return String(v ?? '').toLowerCase().includes(q);
             });
         });
-
         if (sortKey) {
             list = [...list].sort((a, b) => {
                 let va = a[sortKey], vb = b[sortKey];
@@ -491,7 +442,6 @@
                 return sortDir === 'asc' ? cmp : -cmp;
             });
         }
-
         return list;
     }
 
@@ -503,9 +453,7 @@
             const indicator = sortKey === c.key ? ` data-sort="${sortDir}"` : '';
             return `<th scope="col" class="sortable" data-key="${c.key}"${indicator}>${escapeHtml(c.label)}</th>`;
         }).join('');
-
         const allChecked = state.length > 0 && state.every(d => selected.has(d.id));
-
         thead.innerHTML = `<tr>
             <th class="col-check"><input type="checkbox" class="row-check" id="check-all" ${allChecked ? 'checked' : ''} aria-label="Pilih semua"></th>
             <th scope="col" class="num">No</th>
@@ -517,7 +465,6 @@
     /* ---------------- Render table ---------------- */
     function renderTable() {
         const list = getFiltered();
-
         if (!list.length) {
             tbody.innerHTML = '';
             emptyEl.hidden = false;
@@ -525,27 +472,22 @@
             renderBulkBar();
             return;
         }
-
         table.hidden = false;
         emptyEl.hidden = true;
-
         tbody.innerHTML = list.map((item, idx) => {
             const cells = CFG.columns.map(col =>
                 `<td data-label="${escapeHtml(col.label)}">${renderCell(item, col)}</td>`
             ).join('');
-
             const cls = [
                 isUrgent(item) ? 'urgent' : '',
                 selected.has(item.id) ? 'selected' : '',
             ].filter(Boolean).join(' ');
-
             const isTimerActive = runningTimer && runningTimer.id === item.id;
             const timerBtn = CFG.hasDurasi
                 ? `<button class="icon-btn timer${isTimerActive ? ' active' : ''}"
                           data-action="timer" data-id="${item.id}"
                           title="${isTimerActive ? 'Stop timer' : 'Mulai timer'}">${isTimerActive ? '⏹' : '⏱'}</button>`
                 : '';
-
             return `
                 <tr data-id="${item.id}"${cls ? ` class="${cls}"` : ''}>
                     <td class="col-check" data-label="Pilih">
@@ -564,11 +506,9 @@
                 </tr>
             `;
         }).join('');
-
         renderBulkBar();
     }
 
-    /* ---------------- Bulk bar ---------------- */
     function renderBulkBar() {
         if (!bulkBar) return;
         const n = selected.size;
@@ -577,7 +517,6 @@
         bulkCount.textContent = `${n} item dipilih`;
     }
 
-    /* ---------------- Tag + priority options ---------------- */
     function renderTagOptions() {
         if (!tagFilterEl) return;
         const set = new Set();
@@ -596,13 +535,11 @@
     function openModal(item = null) {
         editingId = item ? item.id : null;
         modalTitle.textContent = item ? 'Edit Data' : `Tambah ${CFG.title}`;
-
         form.innerHTML = CFG.formFields.map((f) => {
             let val = item ? (item[f.key] ?? '') : (f.default ?? (f.type === 'select' ? '' : ''));
             if (Array.isArray(val)) val = val.join(', ');
             const full = f.full ? ' full' : '';
             const req = f.required ? ' required' : '';
-
             let input;
             if (f.type === 'select') {
                 const opts = f.options.map(o =>
@@ -623,9 +560,7 @@
                 ].filter(Boolean).join(' ');
                 input = `<input ${attrs}${req}>`;
             }
-
             const hint = f.hint ? `<span class="field-hint">${escapeHtml(f.hint)}</span>` : '';
-
             return `
                 <div class="field${full}">
                     <label for="f-${f.key}">${escapeHtml(f.label)}</label>
@@ -640,14 +575,12 @@
                 <button type="submit" class="btn btn-primary">${item ? 'Simpan' : 'Tambah'}</button>
             </div>
         `;
-
         modal.hidden = false;
         setTimeout(() => {
             const first = form.querySelector('input, select, textarea');
             if (first) first.focus();
         }, 60);
     }
-
     function closeModal() {
         modal.hidden = true;
         editingId = null;
@@ -662,7 +595,6 @@
         CFG.formFields.forEach((f) => {
             let v = fd.get(f.key);
             if (typeof v === 'string') v = v.trim();
-
             if (f.key === 'tags') {
                 data.tags = v ? v.split(',').map(s => s.trim()).filter(Boolean) : [];
                 return;
@@ -670,7 +602,6 @@
             if (f.type === 'number' && v !== '') v = Number(v);
             data[f.key] = v;
         });
-
         if (editingId) {
             state = state.map(it => it.id === editingId ? { ...it, ...data } : it);
             toast('Data diupdate ✎', 'success');
@@ -678,7 +609,6 @@
             state.push({ id: uid(), ...data });
             toast('Data ditambahkan ✓', 'success');
         }
-
         saveState();
         renderTagOptions();
         renderAll();
@@ -739,12 +669,10 @@
         startTimerTick();
         toast('Timer jalan ⏱', 'success');
     }
-
     function stopTimer(save = true) {
         if (!runningTimer) return;
         const item = state.find(it => it.id === runningTimer.id);
         const elapsed = Math.floor((Date.now() - runningTimer.startedAt) / 1000);
-
         if (save && item) {
             const hours = elapsed / 3600;
             const oldDur = Number(item.durasi) || 0;
@@ -752,36 +680,30 @@
             saveState();
             toast(`+${fmtDuration(elapsed)} ditambahin ke durasi ✓`, 'success');
         }
-
         runningTimer = null;
         saveTimer();
         stopTimerTick();
         renderAll();
     }
-
     function startTimerTick() {
         stopTimerTick();
         if (!runningTimer) return;
         const item = state.find(it => it.id === runningTimer.id);
         if (!item) { runningTimer = null; saveTimer(); updateTimerBar(); return; }
-
         timerBar.hidden = false;
         timerLabel.textContent = item.materi || item.matkul || 'Fokus';
         updateTimerBar();
         timerInterval = setInterval(updateTimerBar, 1000);
     }
-
     function stopTimerTick() {
         if (timerInterval) { clearInterval(timerInterval); timerInterval = null; }
         if (!runningTimer) timerBar.hidden = true;
     }
-
     function updateTimerBar() {
         if (!runningTimer) return;
         const elapsed = Math.floor((Date.now() - runningTimer.startedAt) / 1000);
         timerTime.textContent = fmtDuration(elapsed);
     }
-
     function resumeTimer() {
         if (!runningTimer) return;
         const item = state.find(it => it.id === runningTimer.id);
@@ -804,7 +726,6 @@
         URL.revokeObjectURL(url);
         toast(`${state.length} data diexport ✓`, 'success');
     }
-
     function importData(file) {
         const reader = new FileReader();
         reader.onload = (e) => {
@@ -839,33 +760,18 @@
         document.addEventListener('keydown', (e) => {
             const tag = (e.target.tagName || '').toLowerCase();
             const typing = tag === 'input' || tag === 'textarea' || tag === 'select';
-
-            // Ctrl+Enter: submit form
             if (e.key === 'Enter' && (e.ctrlKey || e.metaKey) && !modal.hidden) {
                 e.preventDefault();
                 form.requestSubmit();
                 return;
             }
-
-            // Esc
             if (e.key === 'Escape') {
                 if (!modal.hidden) { closeModal(); return; }
                 if (selected.size) { selected.clear(); renderAll(); return; }
             }
-
             if (typing || !modal.hidden) return;
-
-            // N: new
-            if (e.key === 'n' || e.key === 'N') {
-                e.preventDefault();
-                openModal();
-            }
-
-            // /: focus search
-            if (e.key === '/') {
-                e.preventDefault();
-                searchEl.focus();
-            }
+            if (e.key === 'n' || e.key === 'N') { e.preventDefault(); openModal(); }
+            if (e.key === '/') { e.preventDefault(); searchEl.focus(); }
         });
     }
 
@@ -877,15 +783,12 @@
         btnAdd.addEventListener('click', () => openModal());
         btnClose.addEventListener('click', closeModal);
         modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
-
         form.addEventListener('submit', handleSubmit);
         form.addEventListener('click', (e) => {
             if (e.target.dataset.action === 'cancel') closeModal();
         });
 
-        // row actions
         tbody.addEventListener('click', (e) => {
-            // checkbox
             const check = e.target.closest('[data-check]');
             if (check) {
                 const id = check.dataset.check;
@@ -893,12 +796,10 @@
                 const tr = check.closest('tr');
                 if (tr) tr.classList.toggle('selected', check.checked);
                 renderBulkBar();
-                // update check-all
                 const ca = $('#check-all');
                 if (ca) ca.checked = state.length > 0 && state.every(d => selected.has(d.id));
                 return;
             }
-
             const btn = e.target.closest('[data-action]');
             if (!btn) return;
             const { action, id } = btn.dataset;
@@ -914,7 +815,6 @@
             }
         });
 
-        // check all
         table.querySelector('thead').addEventListener('click', (e) => {
             if (e.target.id === 'check-all') {
                 if (e.target.checked) state.forEach(d => selected.add(d.id));
@@ -923,7 +823,6 @@
             }
         });
 
-        // sort
         table.querySelector('thead').addEventListener('click', (e) => {
             const th = e.target.closest('th[data-key]');
             if (!th) return;
@@ -938,13 +837,11 @@
             renderAll();
         });
 
-        // search & filters
         searchEl.addEventListener('input', (e) => { query = e.target.value; renderTable(); });
         filterEl.addEventListener('change', (e) => { filterStatus = e.target.value; renderTable(); });
         if (tagFilterEl) tagFilterEl.addEventListener('change', (e) => { filterTag = e.target.value; renderTable(); });
         if (priorityFilterEl) priorityFilterEl.addEventListener('change', (e) => { filterPriority = e.target.value; renderTable(); });
 
-        // export / import / reset
         const exportBtn = $('#btn-export');
         const importBtn = $('#btn-import');
         const importFile = $('#import-file');
@@ -971,7 +868,6 @@
             });
         }
 
-        // bulk bar actions
         if (bulkBar) {
             bulkBar.addEventListener('click', (e) => {
                 if (e.target.id === 'btn-bulk-delete') deleteSelected();
@@ -979,7 +875,6 @@
             });
         }
 
-        // timer bar
         if (timerBar) {
             timerBar.addEventListener('click', (e) => {
                 if (e.target.id === 'btn-stop-timer') stopTimer(true);
@@ -990,16 +885,6 @@
         bindShortcuts();
     }
 
-    /* ---------------- PWA ---------------- */
-    function registerSW() {
-        return;
-        if (!('serviceWorker' in navigator)) return;
-        if (location.protocol === 'file:') return;
-        window.addEventListener('load', () => {
-            navigator.serviceWorker.register('./sw.js').catch(() => {});
-        });
-    }
-
     /* ---------------- Init ---------------- */
     function init() {
         initTheme();
@@ -1007,7 +892,6 @@
         try { renderTagOptions(); } catch (e) { console.error(e); }
         try { renderAll(); } catch (e) { console.error('renderAll:', e); }
         try { if (runningTimer) resumeTimer(); } catch (e) { console.error(e); }
-        registerSW();
     }
 
     init();
